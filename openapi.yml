@@ -1,0 +1,367 @@
+openapi: 3.0.0
+info:
+  description: TranquilityBase GCP DAC REST API Service
+  version: "1.2"
+  title: TB GCP DAC
+
+paths:
+  /health:
+    get:
+      operationId: gcpdac.health.check
+      tags:
+        - health
+      summary: health check
+      description: health check
+      responses:
+        '200':
+          description: Successful
+
+  /metadata:
+    get:
+      operationId: gcpdac.metadata.read_all
+      tags:
+        - metadata
+      summary: read all metadata
+      description: read all metadata
+      responses:
+        '200':
+          description: Successful
+
+  /solution_async/:
+    post:
+      operationId: gcpdac.solution.create_async
+      tags:
+        - solution
+      summary: Create a solution
+      description: Create solution in more detail - TODO
+      responses:
+        '201':
+          description: Successfully started a solution creation task
+      requestBody:
+        $ref: "#/components/requestBodies/solution.solutionDetails"
+
+  "/solution_async/{oid}":
+    delete:
+      operationId: gcpdac.solution.delete_async
+      tags:
+        - solution
+      summary: delete a solution
+      description: delete a solution and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a solution deletion task
+
+  "/solution_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.solution.create_solution_result
+      tags:
+        - solution
+      summary: get create solution result
+      description:  get create solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a solution
+
+  "/solution_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.solution.delete_solution_result
+      tags:
+        - solution
+      summary: get delete solution result
+      description:  get delete solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a solution
+
+  /application_async/:
+    post:
+      operationId: gcpdac.application.create_async
+      tags:
+        - application
+      summary: Create a application
+      description: Create application in more detail - TODO
+      responses:
+        '201':
+          description: Successfully started a application creation task
+      requestBody:
+        $ref: "#/components/requestBodies/application.applicationDetails"
+
+  "/application_async/{oid}":
+    delete:
+      operationId: gcpdac.application.delete_async
+      tags:
+        - application
+      summary: delete a application
+      description: delete a application and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a application deletion task
+
+  "/application_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.application.create_application_result
+      tags:
+        - application
+      summary: get create application result
+      description:  get create application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a application
+
+  "/application_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.application.delete_application_result
+      tags:
+        - application
+      summary: get delete application result
+      description:  get delete application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a application
+
+  /folder_async/:
+    post:
+      operationId: gcpdac.folder.create_async
+      tags:
+        - folder
+      summary: Create a folder
+      description: Create a folder
+      responses:
+        '201':
+          description: Successfully started a folder creation task
+      requestBody:
+        $ref: "#/components/requestBodies/folder.folderDetails"
+
+  "/folder_async/{oid}":
+    delete:
+      operationId: gcpdac.folder.delete_async
+      tags:
+        - folder
+      summary: delete a folder
+      description: delete a folder and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully started a folder deletion task
+
+  "/folder_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.folder.create_folder_result
+      tags:
+        - folder
+      summary: get create folder result
+      description:  get create folder result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a folder
+
+  "/folder_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.folder.delete_folder_result
+      tags:
+        - folder
+      summary: get delete folder result
+      description:  get delete folder result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a folder
+servers:
+  - url: /dac
+components:
+  requestBodies:
+    solution.solutionDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: solutionDetails
+            $ref: "#/components/schemas/Solution"
+    application.applicationDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: applicationDetails
+            $ref: "#/components/schemas/Application"
+    folder.folderDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: folderDetails
+            $ref: "#/components/schemas/Folder"
+  schemas:
+    Solution:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the solution id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        businessUnit:
+          type: string
+          description: businessUnit
+        costCentre:
+          type: string
+          description: costCentre
+        ci:
+          type: string
+          description: ci
+        cd:
+          type: string
+          description: cd
+        deploymentFolderId:
+          type: string
+          description: deployment folder id
+        sourceControl:
+          type: string
+          description: sourceControl
+        environments:
+          type: array
+          description: environments
+          items:
+            properties:
+              environment:
+                type: string
+                description: environment
+        active:
+          type: boolean
+          description: active
+        favourite:
+          type: boolean
+          description: favourite
+        teams:
+          type: integer
+          description: teams
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the application id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        solutionId:
+          type: integer
+          description: the solution id
+#        activatorGitUrl:
+#          type: string
+#          description: git url for the activator repo
+#        deployments:
+#          type: array
+#          description: where to deploy
+#          items:
+#            properties:
+#              environment:
+#                type: string
+#                description: environment
+#              projectId:
+#                type: string
+#                description: GCP Project ID for environment
+#              mandatoryVariables:
+#                type: array
+#                description: mandatory variables
+#                items:
+#                  properties:
+#                    key:
+#                      type: string
+#                      description: variable key
+#                    value:
+#                      type: string
+#                      description: variable value
+#              optionalVariables:
+#                type: array
+#                description: optional variables
+#                items:
+#                  properties:
+#                    key:
+#                      type: string
+#                      description: variable key
+#                    value:
+#                      type: string
+#                      description: variable value
+#        lastUpdated:
+#          type: string
+#          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+    Folder:
+      type: object
+      properties:
+        folder:
+          type: object
+          properties:
+            folderName:
+              type: string
+              description: folder name
+            parentFolderId:
+              type: string
+              description: parent folder id
+      example:
+        {
+          folder: {
+            folderName: 'ABC',
+            parentFolderId: '236823'
+          }
+        }
+

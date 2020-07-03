@@ -1,0 +1,22 @@
+{
+  "id": 1,
+  "name": "solutionone",
+  "description": "solution one description",
+  "businessUnit": "BU-1",
+  "costCentre": "CC-1",
+  "ci": "jenkins",
+  "cd": "jenkins",
+  "sourceControl": "git",
+  "deploymentFolderId": "940168182397",
+  "environments": [
+    "Development",
+    "QA",
+    "Staging",
+    "Production"
+  ],
+  "active": true,
+  "favourite": true,
+  "teams": 1,
+  "lastUpdated": "2020-04-21T08:30:52+00:00"
+}
+
